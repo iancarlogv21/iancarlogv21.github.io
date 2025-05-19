@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cine Po Pls 🎬💕</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap');
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #ebc4d4, #e6f7ff);
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #ffe0f0, #d0f0ff);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -15,29 +17,38 @@
       height: 100vh;
       margin: 0;
       text-align: center;
-      position: relative;
       overflow: hidden;
+      position: relative;
+      animation: fadeIn 1.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     h1 {
-      color: #d6336c;
+      color: #c9184a;
       margin: 20px;
-      font-size: 26px;
+      font-size: 28px;
+      font-family: 'Arial', cursive;
+      text-shadow: 1px 1px 2px #fff;
     }
 
     .buttons {
-      margin-top: 20px;
+      margin-top: 25px;
     }
 
     button {
       padding: 15px 35px;
       font-size: 18px;
       border: none;
-      border-radius: 30px;
+      border-radius: 50px;
       cursor: pointer;
-      transition: transform 0.3s, background 0.3s;
+      transition: all 0.3s ease;
       margin: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+      font-weight: 600;
     }
 
     button:hover {
@@ -45,12 +56,12 @@
     }
 
     #yesBtn {
-      background-color: #6cc070;
-      color: white;
+      background: linear-gradient(to right, #70d6ff, #b9fbc0);
+      color: #1b4332;
     }
 
     #noBtn {
-      background-color: #e57373;
+      background: linear-gradient(to right, #ff6b6b, #f06595);
       color: white;
       position: absolute;
     }
@@ -58,15 +69,16 @@
     #message {
       margin-top: 20px;
       font-size: 22px;
-      color: #7b2cbf;
+      color: #5f0f40;
       font-weight: bold;
+      text-shadow: 0 1px 1px #fff;
     }
 
     #gifContainer img {
-      width: 240px;
+      width: 250px;
       height: auto;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
     }
 
     audio {
@@ -76,30 +88,24 @@
 </head>
 <body>
 
-  <!-- Background music -->
   <audio id="bgMusic" autoplay loop>
     <source src="music/glue song _beabadoobee _lyricsvideo _lyric _viral _fyp _foryou _samvel.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
-  <!-- GIF Section -->
   <div id="gifContainer">
     <img id="gif" src="pics/please.gif" alt="Please GIF">
   </div>
 
-  <!-- Question -->
   <h1 id="question">Will you go out with me to watch Final Destination? 🎥💖</h1>
 
-  <!-- Buttons -->
   <div class="buttons">
     <button id="yesBtn">Yes 😍</button>
     <button id="noBtn">No 😢</button>
   </div>
 
-  <!-- Message Display -->
   <div id="message"></div>
 
-  <!-- Script Section -->
   <script>
     const yesBtn = document.getElementById('yesBtn');
     const noBtn = document.getElementById('noBtn');
@@ -108,15 +114,12 @@
     const gif = document.getElementById('gif');
     const bgMusic = document.getElementById('bgMusic');
 
-    // Try to autoplay music
     window.addEventListener('load', () => {
       setTimeout(() => {
         bgMusic.muted = false;
         bgMusic.volume = 1.0;
         bgMusic.play().catch(() => {
-          // fallback if autoplay fails
           const startMusic = () => {
-    
             bgMusic.volume = 1.0;
             bgMusic.play();
             document.removeEventListener('click', startMusic);
@@ -131,7 +134,7 @@
       "Are you sure?",
       "Pag-isipan mo mabuti...",
       "Sad ako pag nag-No ka...",
-      "Please po 🥺.",
+      "Please po 🥺",
       "I will be very sad 😢",
       "I will be very very sad 😭",
       "Please Ann 🥺",
@@ -144,7 +147,7 @@
     yesBtn.addEventListener('click', () => {
       question.textContent = "Knew you would say YES! 💖🍿";
       gif.src = "pics/hehehe.gif";
-      message.textContent = "Yay! See you soon!";
+      message.textContent = "Thank you baby! Can’t wait to see u 🥰🍿💕";
       noBtn.style.display = 'none';
       yesBtn.disabled = true;
     });
