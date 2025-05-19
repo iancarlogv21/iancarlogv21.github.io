@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cine Po Pls 🎬💕</title>
+  <title>cine po baby pls 🎬💕</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap');
 
@@ -213,9 +213,24 @@ let isMoving = false;
 const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 const moveDelay = mobile ? 75 : 150;
 
+// ✅ Play sound and optionally shake screen when button moves
 function moveNoButton() {
   if (isMoving) return;
   isMoving = true;
+
+  // Optional: play a sound when button moves
+  const pop = new Audio('https://www.soundjay.com/button/sounds/button-16.mp3');
+  pop.play().catch(() => {}); // prevent uncaught promise errors
+
+  // Optional: shake screen briefly
+  document.body.style.transition = 'transform 0.1s';
+  document.body.style.transform = 'translateX(3px)';
+  setTimeout(() => {
+    document.body.style.transform = 'translateX(-3px)';
+  }, 50);
+  setTimeout(() => {
+    document.body.style.transform = 'translateX(0)';
+  }, 100);
 
   const padding = 20;
   const btnWidth = noBtn.offsetWidth;
@@ -233,7 +248,7 @@ function moveNoButton() {
   if (noHoverCount < noResponses.length) {
     question.textContent = noResponses[noHoverCount];
   } else {
-    question.textContent = "😩 Wala na bang chance?";
+    question.textContent = " Wala na bang chance? 😩";
   }
 
   gif.src = "pics/SAD.gif";
@@ -245,21 +260,18 @@ function moveNoButton() {
   }, moveDelay);
 }
 
-// Desktop: move on hover
+// ✅ Move on hover (desktop)
 noBtn.addEventListener('pointerenter', () => {
   requestAnimationFrame(moveNoButton);
 });
 
-// Mobile: move on tap
+// ✅ Move on touch (mobile)
 noBtn.addEventListener('touchstart', (e) => {
   e.preventDefault();
   moveNoButton();
 }, { passive: false });
 
-// Auto-move every few seconds on mobile
-if (mobile) {
-  setInterval(moveNoButton, 2000);
-}
+
 
 
   </script>
