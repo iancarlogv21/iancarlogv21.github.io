@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cine Po Pls 🎬💕</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ebc4d4, #e6f7ff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #d6336c;
+      margin: 20px;
+      font-size: 26px;
+    }
+
+    .buttons {
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 15px 35px;
+      font-size: 18px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s;
+      margin: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    #yesBtn {
+      background-color: #6cc070;
+      color: white;
+    }
+
+    #noBtn {
+      background-color: #e57373;
+      color: white;
+      position: absolute;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 22px;
+      color: #7b2cbf;
+      font-weight: bold;
+    }
+
+    #gifContainer img {
+      width: 240px;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="music/glue song _beabadoobee _lyricsvideo _lyric _viral _fyp _foryou _samvel.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- GIF Section -->
+  <div id="gifContainer">
+    <img id="gif" src="pics/please.gif" alt="Please GIF">
+  </div>
+
+  <!-- Question -->
+  <h1 id="question">Will you go out with me to watch Final Destination? 🎥💖</h1>
+
+  <!-- Buttons -->
+  <div class="buttons">
+    <button id="yesBtn">Yes 😍</button>
+    <button id="noBtn">No 😢</button>
+  </div>
+
+  <!-- Message Display -->
+  <div id="message"></div>
+
+  <!-- Script Section -->
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const message = document.getElementById('message');
+    const question = document.getElementById('question');
+    const gif = document.getElementById('gif');
+    const bgMusic = document.getElementById('bgMusic');
+
+    // Try to autoplay music
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        bgMusic.muted = false;
+        bgMusic.volume = 1.0;
+        bgMusic.play().catch(() => {
+          // fallback if autoplay fails
+          const startMusic = () => {
+    
+            bgMusic.volume = 1.0;
+            bgMusic.play();
+            document.removeEventListener('click', startMusic);
+          };
+          document.addEventListener('click', startMusic);
+        });
+      }, 500);
+    });
+
+    let noHoverCount = 0;
+    const noResponses = [
+      "Are you sure?",
+      "Pag-isipan mo mabuti...",
+      "Sad ako pag nag-No ka...",
+      "Please po 🥺.",
+      "I will be very sad 😢",
+      "I will be very very sad 😭",
+      "Please Ann 🥺",
+      "You're breaking my heart 💔",
+      "Last chance po 😞",
+      "You're really gonna say no?... 🥺",
+      "Sobra ka na huhuhu 😭"
+    ];
+
+    yesBtn.addEventListener('click', () => {
+      question.textContent = "Knew you would say YES! 💖🍿";
+      gif.src = "pics/hehehe.gif";
+      message.textContent = "Yay! See you soon!";
+      noBtn.style.display = 'none';
+      yesBtn.disabled = true;
+    });
+
+    noBtn.addEventListener('mouseover', () => {
+      const x = Math.floor(Math.random() * (window.innerWidth - noBtn.offsetWidth));
+      const y = Math.floor(Math.random() * (window.innerHeight - noBtn.offsetHeight));
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+
+      if (noHoverCount < noResponses.length) {
+        question.textContent = noResponses[noHoverCount];
+      } else {
+        question.textContent = "😩 Wala na bang chance?";
+      }
+
+      gif.src = "pics/SAD.gif";
+      message.textContent = '';
+      noHoverCount++;
+    });
+  </script>
+
+</body>
+</html>
