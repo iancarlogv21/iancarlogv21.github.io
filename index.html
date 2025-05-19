@@ -140,90 +140,121 @@
 
   <script>
     const yesBtn = document.getElementById('yesBtn');
-    const noBtn = document.getElementById('noBtn');
-    const message = document.getElementById('message');
-    const question = document.getElementById('question');
-    const gif = document.getElementById('gif');
-    const bgMusic = document.getElementById('bgMusic');
-    const celebration = document.getElementById('celebration');
+const noBtn = document.getElementById('noBtn');
+const message = document.getElementById('message');
+const question = document.getElementById('question');
+const gif = document.getElementById('gif');
+const bgMusic = document.getElementById('bgMusic');
+const celebration = document.getElementById('celebration');
 
-    // Music handling
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        bgMusic.muted = false;
+// Music handling (unchanged)
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    bgMusic.muted = false;
+    bgMusic.volume = 1.0;
+    bgMusic.play().catch(() => {
+      const startMusic = () => {
         bgMusic.volume = 1.0;
-        bgMusic.play().catch(() => {
-          const startMusic = () => {
-            bgMusic.volume = 1.0;
-            bgMusic.play();
-            document.removeEventListener('click', startMusic);
-          };
-          document.addEventListener('click', startMusic);
-        });
-      }, 500);
+        bgMusic.play();
+        document.removeEventListener('click', startMusic);
+      };
+      document.addEventListener('click', startMusic);
     });
+  }, 500);
+});
 
-    // Confetti and decoration particles
-    function createParticle(type) {
-      const el = document.createElement('div');
-      el.classList.add('item');
-      el.style.left = `${Math.random() * 100}%`;
-      el.style.animationDuration = `${3 + Math.random() * 5}s`;
-      el.innerHTML = type;
-      celebration.appendChild(el);
-      setTimeout(() => el.remove(), 8000);
-    }
+// Confetti and decoration particles (unchanged)
+function createParticle(type) {
+  const el = document.createElement('div');
+  el.classList.add('item');
+  el.style.left = `${Math.random() * 100}%`;
+  el.style.animationDuration = `${3 + Math.random() * 5}s`;
+  el.innerHTML = type;
+  celebration.appendChild(el);
+  setTimeout(() => el.remove(), 8000);
+}
 
-    function startCelebration() {
-      const symbols = ["🎉", "🎈", "✨", "💥", "🎊", "🌟"];
-      for (let i = 0; i < 100; i++) {
-        setTimeout(() => {
-          createParticle(symbols[Math.floor(Math.random() * symbols.length)]);
-        }, i * 50);
-      }
-    }
+function startCelebration() {
+  const symbols = ["🎉", "🎈", "✨", "💥", "🎊", "🌟"];
+  for (let i = 0; i < 100; i++) {
+    setTimeout(() => {
+      createParticle(symbols[Math.floor(Math.random() * symbols.length)]);
+    }, i * 100);
+  }
+}
 
-    // Button interaction
-    let noHoverCount = 0;
-    const noResponses = [
-      "Are you sure?",
-      "Pag-isipan mo mabuti...",
-      "Sad ako pag nag-No ka...",
-      "Please po 🥺",
-      "I will be very sad 😢",
-      "I will be very very sad 😭",
-      "Please Ann 🥺",
-      "You're breaking my heart 💔",
-      "Last chance po 😞",
-      "You're really gonna say no?... 🥺",
-      "Sobra ka na huhuhu 😭"
-    ];
+// Button interaction
+let noHoverCount = 0;
+const noResponses = [
+  "Are you sure?",
+  "Pag-isipan mo mabuti...",
+  "Sad ako pag nag-No ka...",
+  "Please po 🥺",
+  "I will be very sad 😢",
+  "I will be very very sad 😭",
+  "Please Ann 🥺",
+  "You're breaking my heart 💔",
+  "Last chance po 😞",
+  "You're really gonna say no?... 🥺",
+  "Sobra ka na huhuhu 😭"
+];
 
-    yesBtn.addEventListener('click', () => {
-      question.textContent = "Knew you would say YES! 💖🍿";
-      gif.src = "pics/hehehe.gif";
-      message.textContent = "Thank you baby! Can’t wait to see u 🥰🍿💕";
-      noBtn.style.display = 'none';
-      yesBtn.disabled = true;
-      startCelebration();
-    });
+yesBtn.addEventListener('click', () => {
+  question.textContent = "Knew you would say YES! 💖🍿";
+  gif.src = "pics/hehehe.gif";
+  message.textContent = "Thank you baby! Can’t wait to see u 🥰🍿💕";
+  noBtn.style.display = 'none';
+  yesBtn.disabled = true;
+  startCelebration();
+});
 
-    noBtn.addEventListener('mouseover', () => {
-      const x = Math.floor(Math.random() * (window.innerWidth - noBtn.offsetWidth));
-      const y = Math.floor(Math.random() * (window.innerHeight - noBtn.offsetHeight));
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
+let isMoving = false;
+const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const moveDelay = mobile ? 150 : 300; 
 
-      if (noHoverCount < noResponses.length) {
-        question.textContent = noResponses[noHoverCount];
-      } else {
-        question.textContent = "😩 Wala na bang chance?";
-      }
+function moveNoButton() {
+  if (isMoving) return;
+  isMoving = true;
 
-      gif.src = "pics/SAD.gif";
-      message.textContent = '';
-      noHoverCount++;
-    });
+  const padding = 20;
+  const btnWidth = noBtn.offsetWidth;
+  const btnHeight = noBtn.offsetHeight;
+
+  const maxX = window.innerWidth - btnWidth - padding;
+  const maxY = window.innerHeight - btnHeight - padding;
+
+  const x = Math.random() * maxX + padding;
+  const y = Math.random() * maxY + padding;
+
+  noBtn.style.left = `${x}px`;
+  noBtn.style.top = `${y}px`;
+
+  if (noHoverCount < noResponses.length) {
+    question.textContent = noResponses[noHoverCount];
+  } else {
+    question.textContent = "😩 Wala na bang chance?";
+  }
+
+  gif.src = "pics/SAD.gif";
+  message.textContent = '';
+  noHoverCount++;
+
+  setTimeout(() => {
+    isMoving = false;
+  }, moveDelay);
+}
+
+// Only move on pointerenter and touchstart to avoid shake
+noBtn.addEventListener('pointerenter', () => {
+  requestAnimationFrame(moveNoButton);
+});
+
+noBtn.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  moveNoButton();
+}, { passive: false });
+
+
   </script>
 
 </body>
