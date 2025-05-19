@@ -84,6 +84,36 @@
     audio {
       display: none;
     }
+
+    .celebration {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .item {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      opacity: 0.8;
+      animation: fall 5s linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -106,6 +136,8 @@
 
   <div id="message"></div>
 
+  <div class="celebration" id="celebration"></div>
+
   <script>
     const yesBtn = document.getElementById('yesBtn');
     const noBtn = document.getElementById('noBtn');
@@ -113,7 +145,9 @@
     const question = document.getElementById('question');
     const gif = document.getElementById('gif');
     const bgMusic = document.getElementById('bgMusic');
+    const celebration = document.getElementById('celebration');
 
+    // Music handling
     window.addEventListener('load', () => {
       setTimeout(() => {
         bgMusic.muted = false;
@@ -129,6 +163,27 @@
       }, 500);
     });
 
+    // Confetti and decoration particles
+    function createParticle(type) {
+      const el = document.createElement('div');
+      el.classList.add('item');
+      el.style.left = `${Math.random() * 100}%`;
+      el.style.animationDuration = `${3 + Math.random() * 5}s`;
+      el.innerHTML = type;
+      celebration.appendChild(el);
+      setTimeout(() => el.remove(), 8000);
+    }
+
+    function startCelebration() {
+      const symbols = ["🎉", "🎈", "✨", "💥", "🎊", "🌟"];
+      for (let i = 0; i < 100; i++) {
+        setTimeout(() => {
+          createParticle(symbols[Math.floor(Math.random() * symbols.length)]);
+        }, i * 50);
+      }
+    }
+
+    // Button interaction
     let noHoverCount = 0;
     const noResponses = [
       "Are you sure?",
@@ -150,6 +205,7 @@
       message.textContent = "Thank you baby! Can’t wait to see u 🥰🍿💕";
       noBtn.style.display = 'none';
       yesBtn.disabled = true;
+      startCelebration();
     });
 
     noBtn.addEventListener('mouseover', () => {
