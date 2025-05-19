@@ -20,6 +20,7 @@
       overflow: hidden;
       position: relative;
       animation: fadeIn 1.5s ease-in;
+       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><text y="25" font-size="28">❤️</text></svg>') 16 16, auto;
     }
 
     @keyframes fadeIn {
@@ -210,7 +211,7 @@ yesBtn.addEventListener('click', () => {
 
 let isMoving = false;
 const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-const moveDelay = mobile ? 150 : 300; 
+const moveDelay = mobile ? 75 : 150;
 
 function moveNoButton() {
   if (isMoving) return;
@@ -244,15 +245,21 @@ function moveNoButton() {
   }, moveDelay);
 }
 
-// Only move on pointerenter and touchstart to avoid shake
+// Desktop: move on hover
 noBtn.addEventListener('pointerenter', () => {
   requestAnimationFrame(moveNoButton);
 });
 
+// Mobile: move on tap
 noBtn.addEventListener('touchstart', (e) => {
   e.preventDefault();
   moveNoButton();
 }, { passive: false });
+
+// Auto-move every few seconds on mobile
+if (mobile) {
+  setInterval(moveNoButton, 2000);
+}
 
 
   </script>
